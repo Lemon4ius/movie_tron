@@ -36,7 +36,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget>
     super.initState();
     widget.popularFilmList.toList().forEach(
       (item) {
-        popularFilmsSlider.add(SliderModel(0, 0, item.posterImage));
+        popularFilmsSlider.add(SliderModel(item.id,0, 0, item.posterImage));
       },
     );
     popularFilmsSlider[1].degree = 4 * math.pi / 180;
@@ -76,9 +76,8 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget>
                 autoPlay: false,
                 autoPlayInterval: const Duration(seconds: 5),
                 autoPlayAnimationDuration: const Duration(seconds: 1),
-                viewportFraction: MediaQuery.of(context).size.height /
-                    MediaQuery.of(context).size.height *
-                    0.6,
+                // viewportFraction: ((MediaQuery.of(context).size.width/940)),
+                viewportFraction: 0.5,
                 onPageChanged: (index, reason) {
                   animationLogic(index);
                 },

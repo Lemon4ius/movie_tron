@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movie_tron/src/core_ui/colors/app_colors.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../../../core_ui/images/home_page/home_page_icon.dart';
 import '../models/tiles_model.dart';
 
 List<Widget> tilesWidget(BuildContext context) {
   var tilesIcons = [
     TilesModel(
-      'Genre',
+      S.of(context).genre,
       HomePageIcon.genreIc,
     ),
     TilesModel(
-      'Top IMDB',
+      S.of(context).topImdb,
       HomePageIcon.starIc,
     ),
     TilesModel(
-      'Language',
+      S.of(context).language,
       HomePageIcon.languageIc,
     ),
     TilesModel(
-      'Watched',
+      S.of(context).watched,
       HomePageIcon.watchedIc,
     ),
   ];
@@ -27,9 +29,9 @@ List<Widget> tilesWidget(BuildContext context) {
     Padding(
       padding: const EdgeInsets.only(left: 48, top: 36),
       child: Text(
-        'Filters',
+        S.of(context).filters,
         textAlign: TextAlign.left,
-        style: Theme.of(context).textTheme.headlineSmall,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     ),
     Padding(
@@ -49,7 +51,7 @@ List<Widget> tilesWidget(BuildContext context) {
                       shape: WidgetStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                           side: const BorderSide(
-                              color: Color.fromRGBO(255, 255, 255, 0.15)))),
+                              color: AppColors.white15))),
                       backgroundColor: WidgetStateProperty.all(
                           const Color.fromRGBO(81, 83, 94, 1)),
                     ),
@@ -57,10 +59,17 @@ List<Widget> tilesWidget(BuildContext context) {
                     child: SvgPicture.asset(item.image),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(item.title,
-                      style: Theme.of(context).textTheme.labelMedium),
+                SizedBox(
+                  width: 62,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        item.title,
+                        style: Theme.of(context).textTheme.labelMedium),
+                  ),
                 ),
               ],
             )

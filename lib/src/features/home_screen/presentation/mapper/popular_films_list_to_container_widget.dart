@@ -1,6 +1,0 @@
-class PopularFilmsListToContainerWidget{
-
-  static map(){
-
-  }
-}

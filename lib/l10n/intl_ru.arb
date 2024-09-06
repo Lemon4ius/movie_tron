@@ -1,0 +1,20 @@
+{
+  "@Home_Page": {},
+  "featured": "Рекомендуемые ",
+  "series": "Фильмы",
+  "hello": "Привет ",
+  "daizy": "Daizy!",
+  "checkForLatestAddition": "Проверьте наличие последнего дополнения.",
+  "search": "Поиск",
+  "genre": "Жанр",
+  "topImdb": "Топ IMDB",
+  "language": "Язык",
+  "watched": "Просмотренные",
+  "filters": "Фильтры",
+
+  "@Detail_Film_Page": {},
+  "plot": "Сюжет",
+  "director": "Режиссер",
+  "actors": "Актёры",
+  "companies": "Компании"
+}

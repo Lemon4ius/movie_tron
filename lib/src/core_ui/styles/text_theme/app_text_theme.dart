@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:movie_tron/src/core_ui/colors/app_colors.dart';
 
 TextTheme appTextTheme() {
   return const TextTheme(
-      titleMedium: TextStyle(color: Colors.white),
-      headlineSmall: TextStyle(color: Colors.white),
-      labelLarge: TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
-      labelMedium: TextStyle(color: Color.fromRGBO(160, 160, 160, 1)),
+    labelSmall: TextStyle(color: AppColors.grayLight, fontWeight: FontWeight.w500),
+      headlineSmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+      titleMedium: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
+      titleSmall: TextStyle(color: AppColors.grayLight,fontWeight: FontWeight.w500),
+      labelMedium: TextStyle(color: AppColors.grayLight,fontWeight: FontWeight.w500),
   );
 }

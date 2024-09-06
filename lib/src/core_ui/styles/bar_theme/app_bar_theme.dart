@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_tron/src/core_ui/colors/app_colors.dart';
 
-AppBarTheme appAppBarTheme() {
-  return const AppBarTheme(
-      backgroundColor: Color.fromRGBO(9, 9, 15, 1),
-      titleTextStyle: TextStyle(color: Colors.white, fontSize: 24));
+AppBarTheme appAppBarTheme(BuildContext context) {
+  return AppBarTheme(
+      backgroundColor: AppColors.mainBackgroundColor,
+      titleTextStyle: Theme.of(context).textTheme.headlineSmall
+  );
 }

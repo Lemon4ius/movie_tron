@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:movie_tron/src/core/network/interceptors/vpn_intercepter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../data_store/base_data_store.dart';
-import '../interceptors/token_interceptor.dart';
 
 class BaseDio {
   static const CONTENT_TYPE = 'application/x-www-form-urlencoded';
@@ -27,14 +27,16 @@ class BaseDio {
       error: true,
       compact: true,
     );
-    const accessToken = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MTFhYjZmMGEzNDY3M2ZkMzZiMzkxNTAwMTAxM2ZiMiIsIm5iZiI6MTcyMTU2ODcyOC43Njg1NDYsInN1YiI6IjY2OWQwNGIyMDczOTIzYWQ0OTE4NDUyOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wmymXNPm5Q9HRnbu0wOdcZbayeWXKZUisWyi0_hsgmY';
-    // _baseDataStore.getAccessToken();
-    
+    const accessToken =
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MTFhYjZmMGEzNDY'
+        '3M2ZkMzZiMzkxNTAwMTAxM2ZiMiIsIm5iZiI6MTcyMTU2ODcyOC43Njg1NDYsInN1YiI6Ij'
+        'Y2OWQwNGIyMDczOTIzYWQ0OTE4NDUyOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJza'
+        'W9uIjoxfQ.wmymXNPm5Q9HRnbu0wOdcZbayeWXKZUisWyi0_hsgmY';
+
     final dioOption = BaseOptions(
       baseUrl: BASE_URL,
       headers: {
         _AUTH_HEADET: accessToken,
-        // _CONTENT_TYPE_HEADET: CONTENT_TYPE
       },
       sendTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
@@ -43,7 +45,6 @@ class BaseDio {
       ..options = dioOption
       ..interceptors.clear()
       ..interceptors.add(prettyLogger);
-      // dio.interceptors.add(TokenInterceptor(dio))
-    ;
+    dio.interceptors.add(VpnInterceptor(dio));
   }
 }

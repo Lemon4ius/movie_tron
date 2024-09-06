@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../generated/l10n.dart';
+
 Padding headerWidget(BuildContext context) {
-  const titleTextStyle =
-      TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white);
   return Padding(
     padding: const EdgeInsets.only(top: 54, left: 48, right: 47),
     child: Row(
@@ -12,17 +12,17 @@ Padding headerWidget(BuildContext context) {
           children: [
             RichText(
                 text: TextSpan(children: [
-              const TextSpan(text: 'Hello ', style: titleTextStyle),
+               TextSpan(text: S.of(context).hello, style: Theme.of(context).textTheme.headlineSmall),
               TextSpan(
-                text: 'Daizy!',
-                style: Theme.of(context).textTheme.headlineSmall,
+                text: S.of(context).daizy,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w300),
               ),
             ])),
             Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
-                'Check for latest addition.',
-                style: Theme.of(context).textTheme.titleMedium,
+                S.of(context).checkForLatestAddition,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             )
           ],

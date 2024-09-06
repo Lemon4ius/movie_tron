@@ -8,5 +8,5 @@ class HomeInitial extends HomeState {}
 class HomeInitialState extends HomeState {
   final Set<PopularFilmResponse> popularFilmList;
 
-  HomeInitialState(this.popularFilmList);
+  HomeInitialState({required this.popularFilmList,});
 }

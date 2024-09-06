@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:go_router/src/route.dart';
 
+import '../colors/app_colors.dart';
 import '../images/bottom_navigation/bottom_navigation_icon.dart';
+import '../models/bottom_nav_bar/bottom_nav_bar_model.dart';
 
 class AppBottomBar extends StatefulWidget {
+
+  final StatefulNavigationShell navigationShell;
+
   const AppBottomBar({
     super.key,
+    required this.navigationShell,
   });
 
   @override
@@ -13,7 +21,6 @@ class AppBottomBar extends StatefulWidget {
 }
 
 class _AppBottomBarState extends State<AppBottomBar> {
-  var isUp = false;
   var previousIndex = 0;
   var _selectedItem = 0;
   final shadowContainerList = [
@@ -52,101 +59,90 @@ class _AppBottomBarState extends State<AppBottomBar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      height: 120,
+      height: 110,
       padding: const EdgeInsets.only(bottom: 10),
-      color: const Color.fromRGBO(9, 9, 15, 1),
+      color: AppColors.mainBackgroundColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: shadowContainerList.map((iconPath) {
-            var index = shadowContainerList.indexOf(iconPath);
-            return Column(mainAxisSize: MainAxisSize.min, children: [
-              Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  direction: Axis.vertical,
-                  children: [
-                    Stack(
+        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 22),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: shadowContainerList.map((iconPath) {
+                var index = shadowContainerList.indexOf(iconPath);
+                return Column(mainAxisSize: MainAxisSize.min, children: [
+                  Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      direction: Axis.vertical,
                       children: [
+                        Stack(
+                          children: [
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.fastOutSlowIn,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color:
+                                            shadowContainerList[index].isVisible
+                                                ? AppColors.darkBlue
+                                                : Colors.transparent,
+                                        blurRadius: 60,
+                                        spreadRadius: 10)
+                                  ]),
+                              height: shadowContainerList[index].size,
+                              width: shadowContainerList[index].size,
+                            ),
+                            IconButton(
+                              icon: SvgPicture.asset(
+                                shadowContainerList[index].icon,
+                                color: _selectedItem == index
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _selectedItem = index;
+
+                                  widget.navigationShell.goBranch(
+                                      index,
+                                      initialLocation: index == widget.navigationShell.currentIndex
+                                  );
+
+                                  shadowContainerList[previousIndex].offset =
+                                      100;
+                                  shadowContainerList[previousIndex].size = 0.0;
+                                  shadowContainerList[previousIndex].isVisible =
+                                      false;
+                                  shadowContainerList[index].offset = 0;
+                                  shadowContainerList[index].size = 40.0;
+                                  shadowContainerList[index].isVisible = true;
+                                  previousIndex = index;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                         AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.fastOutSlowIn,
-                          decoration:
-                              BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                            BoxShadow(
-                                color: shadowContainerList[index].isVisible
-                                    ? const Color.fromRGBO(55, 62, 82, 1)
-                                    : Colors.transparent,
-                                blurRadius: 60,
-                                spreadRadius: 10)
-                          ]),
-                          height: shadowContainerList[index].size,
-                          width: shadowContainerList[index].size,
-                        ),
-                        IconButton(
-                          icon: SvgPicture.asset(
-                            shadowContainerList[index].icon,
-                            color: _selectedItem == index
-                                ? Colors.white
-                                : Colors.grey,
+                          duration: const Duration(milliseconds: 300),
+                          transform: Transform.translate(
+                            offset:
+                                Offset(0, shadowContainerList[index].offset),
+                          ).transform,
+                          child: const Icon(
+                            Icons.circle,
+                            color: Colors.white,
+                            size: 4,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _selectedItem = index;
-                              shadowContainerList[previousIndex].offset = 100;
-                              shadowContainerList[previousIndex].size = 0.0;
-                              shadowContainerList[previousIndex].isVisible =
-                                  false;
-                              shadowContainerList[index].offset = 0;
-                              shadowContainerList[index].size = 40.0;
-                              shadowContainerList[index].isVisible = true;
-                              previousIndex = index;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      transform: Transform.translate(
-                        offset: Offset(0, shadowContainerList[index].offset),
-                      ).transform,
-                      child: const Icon(
-                        Icons.circle,
-                        color: Colors.white,
-                        size: 4,
-                      ),
-                    )
-                  ]),
-            ]);
-          }).toList(),
+                        )
+                      ]),
+                ]);
+              }).toList(),
+            ),
+          ],
         ),
       ),
     );
   }
-}
-
-class ShadowContainerModel {
-  final String icon;
-  double size;
-  double offset;
-  bool isVisible;
-
-  ShadowContainerModel(
-      {required this.icon,
-      required this.size,
-      required this.offset,
-      required this.isVisible});
-}
-
-class AnCont {
-  double size;
-
-  AnCont(this.size);
-}
-
-class SubIcon {
-  double offset;
-
-  SubIcon(this.offset);
 }

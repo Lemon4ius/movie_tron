@@ -1,0 +1,21 @@
+{
+  "@Home_Page": {},
+  "featured": "Featured ",
+  "series": "Movie",
+  "hello": "Hello ",
+  "daizy": "Daizy!",
+  "checkForLatestAddition": "Check for latest addition.",
+  "search": "Search",
+  "genre": "Genre",
+  "topImdb": "Top IMDB",
+  "language": "Language",
+  "watched": "Watched",
+  "filters": "Filters",
+
+
+  "@Detail_Film_Page": {},
+  "plot": "Plot",
+  "director": "Director",
+  "actors": "Actors",
+  "companies": "Companies"
+}
