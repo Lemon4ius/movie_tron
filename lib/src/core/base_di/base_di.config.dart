@@ -22,6 +22,13 @@ import '../../features/home_screen/data/repo_impl/home_repo_impl.dart' as _i451;
 import '../../features/home_screen/domain/repository/home_repository.dart'
     as _i499;
 import '../../features/home_screen/presentation/bloc/home_bloc.dart' as _i285;
+import '../../features/search_screen/data/api/search_api.dart' as _i761;
+import '../../features/search_screen/data/repo_impl/search_repo_impl.dart'
+    as _i252;
+import '../../features/search_screen/domain/repository/search_repository.dart'
+    as _i326;
+import '../../features/search_screen/presentation/bloc/search_bloc.dart'
+    as _i1015;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -37,7 +44,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i971.DetailApi>(() => _i971.DetailApi());
     gh.factory<_i1053.DetailApi>(() => _i1053.DetailApi());
     gh.factory<_i285.HomeBloc>(() => _i285.HomeBloc());
+    gh.factory<_i761.SearchApi>(() => _i761.SearchApi());
+    gh.factory<_i1015.SearchBloc>(() => _i1015.SearchBloc());
     gh.factory<_i499.HomeRepository>(() => _i451.HomeRepoImpl());
+    gh.factory<_i326.SearchRepository>(() => _i252.SearchRepoImpl());
     gh.factory<_i733.DetailRepository>(() => _i549.DetailRepoImpl());
     return this;
   }

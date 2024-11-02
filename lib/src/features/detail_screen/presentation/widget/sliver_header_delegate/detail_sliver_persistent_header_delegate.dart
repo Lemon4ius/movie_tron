@@ -18,7 +18,6 @@ class DetailSliverPersistentHeaderDelegate
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     final progress = shrinkOffset / maxExtent;
-    print(progress);
     return BlocBuilder<DetailBloc, DetailState>(
       builder: (context, state) {
         if (state is DetailInitialState) {

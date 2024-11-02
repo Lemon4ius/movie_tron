@@ -8,53 +8,68 @@ import '../../features/profile_screen/presentation/profile_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _sectionNavigatorKey = GlobalKey<NavigatorState>();
+final _sectionNavigatorKey2 = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
-    initialLocation: '/',
-    navigatorKey: _rootNavigatorKey,
-    routes: [
-      StatefulShellRoute.indexedStack(
-          builder: (context, state, navigationShell) {
-            return HomePage(
-              navigationShell: navigationShell,
-            );
-          },
-          branches: [
-            StatefulShellBranch(navigatorKey: _sectionNavigatorKey, routes: [
+  initialLocation: '/',
+  navigatorKey: _rootNavigatorKey,
+  routes: [
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return HomePage(
+          navigationShell: navigationShell,
+        );
+      },
+      branches: [
+        StatefulShellBranch(navigatorKey: _sectionNavigatorKey, routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const HomeBodyMainMenu(),
+            routes: [
               GoRoute(
-                  path: '/',
-                  builder: (context, state) => const HomeBodyMainMenu(),
-                  routes: [
-                    GoRoute(
-                      parentNavigatorKey: _sectionNavigatorKey,
-                      name: 'detail',
-                      path: 'detail-film/:id',
-                      builder: (context, state) {
-                        final filmId = state.pathParameters['id']!;
-                        return DetailPage(idFilm: int.parse(filmId));
-                      },
-                    )
-                  ]),
-            ]),
-            StatefulShellBranch( routes: [
+                parentNavigatorKey: _rootNavigatorKey,
+                name: 'detail',
+                path: 'detail-film/:id',
+                builder: (context, state) {
+                  final filmId = state.pathParameters['id']!;
+                  return DetailPage(idFilm: int.parse(filmId));
+                },
+              )
+            ],
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: '/picture-list',
+            builder: (context, state) => const Scaffold(
+              backgroundColor: Colors.amberAccent,
+            ),
+          ),
+        ]),
+        StatefulShellBranch(navigatorKey: _sectionNavigatorKey2, routes: [
+          GoRoute(
+            path: '/search',
+            builder: (context, state) => SearchPage(),
+            routes: [
               GoRoute(
-                path: '/picture-list',
-                builder: (context, state) => const Scaffold(
-                  backgroundColor: Colors.amberAccent,
-                ),
-              ),
-            ]),
-            StatefulShellBranch( routes: [
-              GoRoute(
-                path: '/search',
-                builder: (context, state) => SearchPage(),
-              ),
-            ]),
-            StatefulShellBranch( routes: [
-              GoRoute(
-                path: '/profile',
-                builder: (context, state) => ProfilePage(),
-              ),
-            ])
-          ]),
-    ]);
+                parentNavigatorKey: _rootNavigatorKey,
+                name: 'search-detail',
+                path: 'detail-film/:id',
+                builder: (context, state) {
+                  final filmId = state.pathParameters['id']!;
+                  return DetailPage(idFilm: int.parse(filmId));
+                },
+              )
+            ],
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => ProfilePage(),
+          ),
+        ]),
+      ],
+    ),
+  ],
+);

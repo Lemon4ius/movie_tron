@@ -73,7 +73,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget>
               options: CarouselOptions(
                 clipBehavior: Clip.none,
                 height: widget.constraints.maxHeight / 2.5,
-                autoPlay: false,
+                autoPlay: true,
                 autoPlayInterval: const Duration(seconds: 5),
                 autoPlayAnimationDuration: const Duration(seconds: 1),
                 // viewportFraction: ((MediaQuery.of(context).size.width/940)),

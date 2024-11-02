@@ -24,7 +24,7 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  SafeArea detailBody() {
+  detailBody() {
     return SafeArea(
       child: BlocProvider(
         create: (context) => DetailBloc()

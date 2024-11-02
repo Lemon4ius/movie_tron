@@ -6,7 +6,7 @@ import '../../../../core_ui/colors/app_colors.dart';
 
 searchingWidget(BuildContext context) {
   return Container(
-    margin: const EdgeInsets.only(top: 36, right: 48, left: 48),
+    // margin: const EdgeInsets.only(top: 36, right: 48, left: 48),
     height: 52,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
