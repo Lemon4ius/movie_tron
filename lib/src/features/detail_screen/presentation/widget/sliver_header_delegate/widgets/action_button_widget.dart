@@ -24,12 +24,13 @@ AnimatedContainer actionButton(BuildContext context, double progress) {
           Row(
             children: [
               toolButton(image: 'assets/image/detail_page/back_ic.svg', progress: progress, onPress: () {
-                if(context.canPop())
+                if(context.canPop()) {
                   context.pop();
+                }
               },),
               const Spacer(),
               toolButton(image: 'assets/image/detail_page/heart_ic.svg', progress: progress,onPress: () {
-
+                  //TODO добавить функцию добавления в избранное
               },),
             ],
           ),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_tron/src/core_ui/colors/app_colors.dart';
 import 'package:movie_tron/src/features/home_screen/presentation/widget/search_widget.dart';
 import 'package:movie_tron/src/features/search_screen/presentation/widget/filter_chip_widget.dart';
 
@@ -27,32 +29,46 @@ class SearchSliverPersistentHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     final progress = shrinkOffset / maxExtent;
+    debugPrint(progress.toString());
     return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: searchingWidget(context),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Wrap(
-                spacing: 16,
-                runSpacing: 14,
-                alignment: WrapAlignment.center,
-                direction: Axis.horizontal,
-                children: [
-                  for (var i = 0; i < genreList.length; i++)
-                    FilterChipWidget(
-                      genre: genreList[i],
-                    )
-                ],
+        AnimatedContainer(
+          color: AppColors.mainBackgroundColor,
+          alignment: Alignment.topCenter,
+          duration: Duration.zero,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: searchingWidget(context),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            height: 230,
+            width: MediaQuery.of(context).size.width,
+            child: AnimatedContainer(
+              alignment: Alignment.bottomCenter,
+              duration: Duration.zero,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Wrap(
+                  spacing: 16,
+                  runSpacing: 14,
+                  alignment: WrapAlignment.center,
+                  direction: Axis.horizontal,
+                  children: [
+                    for (var i = 0; i < genreList.length; i++)
+                      FilterChipWidget(
+                        genre: genreList[i],
+                      )
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        )
       ],
     );
   }
@@ -61,7 +77,7 @@ class SearchSliverPersistentHeader extends SliverPersistentHeaderDelegate {
   double get maxExtent => maxSize;
 
   @override
-  double get minExtent => kToolbarHeight;
+  double get minExtent => 85;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

@@ -4,9 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../core_ui/colors/app_colors.dart';
 
-searchingWidget(BuildContext context) {
+searchingWidget(BuildContext context, {Key? key}) {
   return Container(
-    // margin: const EdgeInsets.only(top: 36, right: 48, left: 48),
+    key: key,
     height: 52,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),

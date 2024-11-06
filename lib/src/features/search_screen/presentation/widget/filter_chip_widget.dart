@@ -14,6 +14,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
+      key: widget.key,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       disabledColor: const Color.fromRGBO(81, 83, 93, 0.25),
       backgroundColor: const Color.fromRGBO(81, 83, 93, 0.25),
@@ -23,7 +24,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
       label: Text(
         widget.genre.label,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       onSelected: (value) {
         setState(() {

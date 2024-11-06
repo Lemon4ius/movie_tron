@@ -1,17 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_tron/src/features/home_screen/domain/models/params_model/popular_params_model.dart';
+import 'package:movie_tron/src/features/search_screen/presentation/widget/movie_element_widget.dart';
 import 'package:movie_tron/src/features/search_screen/presentation/widget/sliver_persistent_header/search_sliver_persistent_header.dart';
 
 import 'bloc/search_bloc.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
   var isSelected = false;
+  final _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,65 +26,114 @@ class _SearchPageState extends State<SearchPage> {
       create: (context) => SearchBloc()
         ..add(SearchInitialEvent(PopularParamsModel('ru-Rus', 1))),
       child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverPersistentHeader(
-                    pinned: true,
-                    delegate: SearchSliverPersistentHeader(
-                      maxSize: 300,
-                    )),
-              )
-            ];
+        body: NotificationListener<ScrollNotification>(
+          onNotification: (scrollNotification) {
+            scrollPhysicsNestedScrollView(scrollNotification);
+            return false;
           },
-          body: Builder(
-            builder: (sliverContext) {
-              return CustomScrollView(
-                slivers: [
-                  SliverOverlapInjector(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        sliverContext),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      color: Colors.red,)
-                  )
-                ],
-              );
-            }
+          child: BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              if (state is SearchLoadedDefaultMovieState) {
+                return NestedScrollView(
+                  controller: _controller,
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return [
+                      SliverOverlapAbsorber(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context),
+                        sliver: SliverPersistentHeader(
+                            floating: true,
+                            pinned: true,
+                            delegate: SearchSliverPersistentHeader(
+                              maxSize: 240,
+                            )),
+                      )
+                    ];
+                  },
+                  body: Builder(builder: (sliverContext) {
+                    return CustomScrollView(
+                      slivers: [
+                        SliverOverlapInjector(
+                          handle:
+                              NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                  sliverContext),
+                        ),
+                        SliverPadding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                          ),
+                          sliver: SliverGrid.builder(
+                            itemCount: state.defaultMovie.filmsList.length,
+                            // clipBehavior: Clip.hardEdge,
+                            // padding:
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount:
+                                        (MediaQuery.of(context).size.width /
+                                                200)
+                                            .floor(),
+                                    childAspectRatio: 2 / 3.6,
+                                    crossAxisSpacing: 16,
+                                    mainAxisSpacing: 16),
+                            itemBuilder: (context, index) =>
+                                movieElement(state, index, context),
+                          ),
+                        ),
+                        // SliverGrid.builder(
+                        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        //       crossAxisCount:
+                        //           (MediaQuery.of(context).size.width / 200)
+                        //               .floor(),
+                        //       childAspectRatio: 2 / 3.6,
+                        //       crossAxisSpacing: 16,
+                        //       mainAxisSpacing: 16),
+                        //   itemBuilder: (context, index) {
+                        //     return Container(
+                        //       color: Colors.red,
+                        //     );
+                        //   },
+                        //   itemCount: 10,
+                        // )
+                      ],
+                    );
+                  }),
+                );
+              } else {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.white,
+                ));
+              }
+            },
           ),
-          // body: Column(
-          //   children: [
-          //     Padding(
-          //       padding: const EdgeInsets.only(
-          //           top: 32, right: 16, left: 16, bottom: 11),
-          //       child: searchingWidget(context),
-          //     ),
-          //     Padding(
-          //       padding: const EdgeInsets.only(
-          //           left: 16, right: 16, top: 14, bottom: 26),
-          //       child: Wrap(
-          //         spacing: 16,
-          //         runSpacing: 14,
-          //         alignment: WrapAlignment.center,
-          //         direction: Axis.horizontal,
-          //         children: [
-          //           for (var i = 0; i < genreList.length; i++)
-          //             filterChipWidget(genreList[i]),
-          //         ],
-          //       ),
-          //     ),
-          //     tableMovieWidget(),
-          //   ],
-          // ),
         ),
       ),
     );
+  }
+
+  scrollPhysicsNestedScrollView(ScrollNotification scrollNotification) {
+    if (scrollNotification is ScrollEndNotification &&
+        scrollNotification.depth == 0) {
+      final minExtent = scrollNotification.metrics.minScrollExtent;
+      final maxExtent = scrollNotification.metrics.maxScrollExtent;
+      final middle = (maxExtent - minExtent) / 2;
+      final pos = scrollNotification.metrics.pixels;
+      double? scrollTo;
+
+      if (minExtent < pos && pos <= middle) {
+        scrollTo = minExtent;
+      } else if (middle < pos && pos < maxExtent) {
+        scrollTo = maxExtent;
+      }
+      if (scrollTo != null) {
+        Timer(
+            const Duration(milliseconds: 1),
+            () => _controller.animateTo(scrollTo!,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease));
+      }
+    }
   }
 
   filterChipWidget(GenreChip genre) {
@@ -92,7 +147,7 @@ class _SearchPageState extends State<SearchPage> {
       label: Text(
         genre.label,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       onSelected: (value) {
         setState(() {

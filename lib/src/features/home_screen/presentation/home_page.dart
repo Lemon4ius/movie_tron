@@ -60,7 +60,7 @@ class HomeBodyMainMenu extends StatelessWidget {
                     headerWidget(context),
                     Padding(padding: const EdgeInsets.only(
                         top: 36, right: 48, left: 48),
-                      child: searchingWidget(context),),
+                      child: searchingWidget(context ),),
                     ...tilesWidget(context),
                     Padding(
                       padding: const EdgeInsets.only(top: 36, left: 48),
