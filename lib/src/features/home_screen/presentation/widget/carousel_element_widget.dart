@@ -10,7 +10,7 @@ carouselElement(
     int index,
     BuildContext context,
     List<SliderModel> popularFilmsSlider,
-    Animation<double> _animationController) {
+    Animation<double> animationController) {
   return SizedBox(
     child: Stack(
       alignment: Alignment.center,
@@ -26,7 +26,7 @@ carouselElement(
             angle: Tween<double>(
                     begin: popularFilmsSlider[index].previousDegree,
                     end: popularFilmsSlider[index].degree)
-                .animate(_animationController)
+                .animate(animationController)
                 .value,
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(27)),

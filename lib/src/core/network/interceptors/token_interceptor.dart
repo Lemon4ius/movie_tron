@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 
 import '../../data_store/base_data_store.dart';
@@ -20,12 +21,14 @@ class TokenInterceptor extends Interceptor {
       final responseToken = await ApiClient().getAccessToken(UserDataModel());
       final token = '${responseToken.token_type} ${responseToken.access_token}';
       baseDataStore.saveAccessToken(token);
-      print(token);
+      debugPrint(token);
       dio.options.headers['Authorization'] = token;
       try {
         final response = await dio.fetch(err.requestOptions);
         handler.resolve(response);
-      } on DioException catch (e) {}
+      } on DioException catch (e) {
+        //TODO что-то делать
+      }
     }
   }
 

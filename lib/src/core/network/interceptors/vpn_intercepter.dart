@@ -17,8 +17,4 @@ class VpnInterceptor extends Interceptor {
         throw Exception('Не обработанная ошибка - ${err.message}');
     }
   }
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    super.onResponse(response, handler);
-  }
 }

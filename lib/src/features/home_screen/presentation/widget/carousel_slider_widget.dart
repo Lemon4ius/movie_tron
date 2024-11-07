@@ -25,8 +25,8 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget>
     with TickerProviderStateMixin {
   late List<SliderModel> popularFilmsSlider = [];
   var _pageNow = 0;
-  late var _pagePrevious;
-  late var _pageNext;
+  var _pagePrevious=0;
+  var _pageNext=0;
   var degree = -math.e / 14;
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -78,16 +78,14 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget>
                 autoPlayAnimationDuration: const Duration(seconds: 1),
                 // viewportFraction: ((MediaQuery.of(context).size.width/940)),
                 viewportFraction: 0.5,
-                onPageChanged: (index, reason) {
-                  animationLogic(index);
-                },
+                onPageChanged: animationLogic
               ));
         },
       ),
     );
   }
 
-  void animationLogic(int index) {
+  void animationLogic(int index,CarouselPageChangedReason reason) {
     _pagePrevious = index == 0 ? popularFilmsSlider.length - 1 : index - 1;
     _pageNow = index;
     _pageNext = index == popularFilmsSlider.length - 1 ? 0 : index + 1;
@@ -116,7 +114,6 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget>
       popularFilmsSlider[_pagePrevious].padding = 20;
       popularFilmsSlider[_pageNow].padding = 0;
       popularFilmsSlider[_pageNext].padding = 20;
-      // print(index);
     });
   }
 

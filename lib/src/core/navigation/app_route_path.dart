@@ -49,7 +49,7 @@ final appRouter = GoRouter(
         StatefulShellBranch(navigatorKey: _sectionNavigatorKey2, routes: [
           GoRoute(
             path: '/search',
-            builder: (context, state) => SearchPage(),
+            builder: (context, state) => const SearchPage(),
             routes: [
               GoRoute(
                 parentNavigatorKey: _rootNavigatorKey,
@@ -66,7 +66,7 @@ final appRouter = GoRouter(
         StatefulShellBranch(routes: [
           GoRoute(
             path: '/profile',
-            builder: (context, state) => ProfilePage(),
+            builder: (context, state) => const ProfilePage(),
           ),
         ]),
       ],
