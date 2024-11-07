@@ -9,6 +9,8 @@ import 'package:movie_tron/src/features/profile_screen/presentation/profile_page
 import 'package:movie_tron/src/features/search_screen/presentation/search_page.dart';
 
 import '../../../../generated/l10n.dart';
+import '../../../core_ui/images/bottom_navigation/bottom_navigation_icon.dart';
+import '../../../core_ui/models/bottom_nav_bar/bottom_nav_bar_model.dart';
 import '../../../core_ui/widget/bottom_app_bar.dart';
 import '../domain/models/results_popular_list_films_responce/popular_list_film_response.dart';
 import 'bloc/home_bloc.dart';
@@ -35,6 +37,33 @@ class _HomePageState extends State<HomePage> {
       body: widget.navigationShell,
       bottomNavigationBar: AppBottomBar(
         navigationShell: widget.navigationShell,
+        shadowContainerList: [
+          ShadowContainerModel(
+              icon: BottomNavigationIcon.homeIcon,
+              size: 0,
+              offset: 100,
+              isVisible: false),
+          ShadowContainerModel(
+              icon: BottomNavigationIcon.playerIcon,
+              size: 0,
+              offset: 100,
+              isVisible: false),
+          ShadowContainerModel(
+              icon: BottomNavigationIcon.searchIcon,
+              size: 0,
+              offset: 100,
+              isVisible: false),
+          ShadowContainerModel(
+              icon: BottomNavigationIcon.profileIcon,
+              size: 0,
+              offset: 100,
+              isVisible: false),
+          ShadowContainerModel(
+              icon: BottomNavigationIcon.profileIcon,
+              size: 0,
+              offset: 100,
+              isVisible: false),
+        ],
       ),
     );
   }

@@ -10,10 +10,11 @@ import '../models/bottom_nav_bar/bottom_nav_bar_model.dart';
 class AppBottomBar extends StatefulWidget {
 
   final StatefulNavigationShell navigationShell;
-
+  final List<ShadowContainerModel> shadowContainerList;
   const AppBottomBar({
     super.key,
     required this.navigationShell,
+    required this.shadowContainerList
   });
 
   @override
@@ -23,35 +24,15 @@ class AppBottomBar extends StatefulWidget {
 class _AppBottomBarState extends State<AppBottomBar> {
   var previousIndex = 0;
   var _selectedItem = 0;
-  final shadowContainerList = [
-    ShadowContainerModel(
-        icon: BottomNavigationIcon.homeIcon,
-        size: 0,
-        offset: 100,
-        isVisible: false),
-    ShadowContainerModel(
-        icon: BottomNavigationIcon.playerIcon,
-        size: 0,
-        offset: 100,
-        isVisible: false),
-    ShadowContainerModel(
-        icon: BottomNavigationIcon.searchIcon,
-        size: 0,
-        offset: 100,
-        isVisible: false),
-    ShadowContainerModel(
-        icon: BottomNavigationIcon.profileIcon,
-        size: 0,
-        offset: 100,
-        isVisible: false),
-  ];
+  List<ShadowContainerModel> shadowContainerListClone = [];
 
   @override
   void initState() {
+    shadowContainerListClone = List.from(widget.shadowContainerList);
     setState(() {
-      shadowContainerList[_selectedItem].isVisible = true;
-      shadowContainerList[_selectedItem].offset = 0;
-      shadowContainerList[_selectedItem].size = 40.0;
+      shadowContainerListClone[_selectedItem].isVisible = true;
+      shadowContainerListClone[_selectedItem].offset = 0;
+      shadowContainerListClone[_selectedItem].size = 40.0;
     });
     super.initState();
   }
@@ -68,8 +49,8 @@ class _AppBottomBarState extends State<AppBottomBar> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: shadowContainerList.map((iconPath) {
-                var index = shadowContainerList.indexOf(iconPath);
+              children: shadowContainerListClone.map((iconPath) {
+                var index = shadowContainerListClone.indexOf(iconPath);
                 return Column(mainAxisSize: MainAxisSize.min, children: [
                   Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
@@ -85,18 +66,18 @@ class _AppBottomBarState extends State<AppBottomBar> {
                                   boxShadow: [
                                     BoxShadow(
                                         color:
-                                            shadowContainerList[index].isVisible
+                                            shadowContainerListClone[index].isVisible
                                                 ? AppColors.darkBlue
                                                 : Colors.transparent,
                                         blurRadius: 60,
                                         spreadRadius: 10)
                                   ]),
-                              height: shadowContainerList[index].size,
-                              width: shadowContainerList[index].size,
+                              height: shadowContainerListClone[index].size,
+                              width: shadowContainerListClone[index].size,
                             ),
                             IconButton(
                               icon: SvgPicture.asset(
-                                shadowContainerList[index].icon,
+                                shadowContainerListClone[index].icon,
                                 color: _selectedItem == index
                                     ? Colors.white
                                     : Colors.grey,
@@ -110,14 +91,14 @@ class _AppBottomBarState extends State<AppBottomBar> {
                                       initialLocation: index == widget.navigationShell.currentIndex
                                   );
 
-                                  shadowContainerList[previousIndex].offset =
+                                  shadowContainerListClone[previousIndex].offset =
                                       100;
-                                  shadowContainerList[previousIndex].size = 0.0;
-                                  shadowContainerList[previousIndex].isVisible =
+                                  shadowContainerListClone[previousIndex].size = 0.0;
+                                  shadowContainerListClone[previousIndex].isVisible =
                                       false;
-                                  shadowContainerList[index].offset = 0;
-                                  shadowContainerList[index].size = 40.0;
-                                  shadowContainerList[index].isVisible = true;
+                                  shadowContainerListClone[index].offset = 0;
+                                  shadowContainerListClone[index].size = 40.0;
+                                  shadowContainerListClone[index].isVisible = true;
                                   previousIndex = index;
                                 });
                               },
@@ -128,7 +109,7 @@ class _AppBottomBarState extends State<AppBottomBar> {
                           duration: const Duration(milliseconds: 300),
                           transform: Transform.translate(
                             offset:
-                                Offset(0, shadowContainerList[index].offset),
+                                Offset(0, shadowContainerListClone[index].offset),
                           ).transform,
                           child: const Icon(
                             Icons.circle,
