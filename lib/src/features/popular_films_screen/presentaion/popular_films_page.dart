@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_tron/src/core/base_di/base_di.dart';
-import 'package:movie_tron/src/features/home_screen/domain/repository/home_repository.dart';
 
 import '../../home_screen/domain/models/params_model/popular_params_model.dart';
 import '../../home_screen/presentation/bloc/home_bloc.dart';
 import 'widget/film_card_widget.dart';
 
 class PopularFilmsPage extends StatelessWidget{
+  const PopularFilmsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

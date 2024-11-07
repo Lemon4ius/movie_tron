@@ -19,7 +19,7 @@ Padding companiesListView(BuildContext context, DetailInitialState state) {
             return Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   height: 100,
                   width: 100,
                   decoration: BoxDecoration(

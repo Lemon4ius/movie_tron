@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:movie_tron/src/core/base_di/base_di.dart';
 import 'package:retrofit/http.dart';
 
 import '../base_dio/base_dio.dart';

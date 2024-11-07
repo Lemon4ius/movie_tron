@@ -29,41 +29,41 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  CarouselController buttonCarouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widget.navigationShell,
-      bottomNavigationBar: AppBottomBar(
-        navigationShell: widget.navigationShell,
-        shadowContainerList: [
-          ShadowContainerModel(
-              icon: BottomNavigationIcon.homeIcon,
-              size: 0,
-              offset: 100,
-              isVisible: false),
-          ShadowContainerModel(
-              icon: BottomNavigationIcon.playerIcon,
-              size: 0,
-              offset: 100,
-              isVisible: false),
-          ShadowContainerModel(
-              icon: BottomNavigationIcon.searchIcon,
-              size: 0,
-              offset: 100,
-              isVisible: false),
-          ShadowContainerModel(
-              icon: BottomNavigationIcon.profileIcon,
-              size: 0,
-              offset: 100,
-              isVisible: false),
-          ShadowContainerModel(
-              icon: BottomNavigationIcon.profileIcon,
-              size: 0,
-              offset: 100,
-              isVisible: false),
-        ],
+    return BlocProvider(
+      create: (context) => HomeBloc()
+        ..add(InitialEvent(PopularParamsModel(Platform.localeName.replaceAll('_', '-'), 1))),
+      child: SafeArea(
+        child: Scaffold(
+          body: widget.navigationShell,
+          bottomNavigationBar: AppBottomBar(
+            navigationShell: widget.navigationShell,
+            shadowContainerList: [
+              ShadowContainerModel(
+                  icon: BottomNavigationIcon.homeIcon,
+                  size: 0,
+                  offset: 100,
+                  isVisible: false),
+              ShadowContainerModel(
+                  icon: BottomNavigationIcon.playerIcon,
+                  size: 0,
+                  offset: 100,
+                  isVisible: false),
+              ShadowContainerModel(
+                  icon: BottomNavigationIcon.searchIcon,
+                  size: 0,
+                  offset: 100,
+                  isVisible: false),
+              ShadowContainerModel(
+                  icon: BottomNavigationIcon.profileIcon,
+                  size: 0,
+                  offset: 100,
+                  isVisible: false),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -74,62 +74,46 @@ class HomeBodyMainMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-      HomeBloc()
-        ..add(InitialEvent(
-            PopularParamsModel(Platform.localeName.replaceAll('_', '-'), 1))),
-      child: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) =>
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    headerWidget(context),
-                    Padding(padding: const EdgeInsets.only(
-                        top: 36, right: 48, left: 48),
-                      child: searchingWidget(context ),),
-                    ...tilesWidget(context),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 36, left: 48),
-                      child: RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: S
-                                    .of(context)
-                                    .featured,
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .headlineSmall),
-                            TextSpan(
-                                text: S
-                                    .of(context)
-                                    .series,
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .headlineSmall
-                                    ?.copyWith(fontWeight: FontWeight.w300)),
-                          ])),
-                    ),
-                    BlocBuilder<HomeBloc, HomeState>(
-                      builder: (context, state) {
-                        if (state is HomeInitialState) {
-                          return CarouselSliderWidget(
-                              state.popularFilmList, constraints);
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            headerWidget(context),
+            Padding(
+              padding: const EdgeInsets.only(top: 36, right: 48, left: 48),
+              child: searchingWidget(context),
+            ),
+            ...tilesWidget(context),
+            Padding(
+              padding: const EdgeInsets.only(top: 36, left: 48),
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: S.of(context).featured,
+                    style: Theme.of(context).textTheme.headlineSmall),
+                TextSpan(
+                    text: S.of(context).series,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.w300)),
+              ])),
+            ),
+            BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                if (state is HomeInitialState) {
+                  return CarouselSliderWidget(
+                      state.popularFilmList, constraints);
+                }
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
+              },
+            )
+          ],
         ),
       ),
     );

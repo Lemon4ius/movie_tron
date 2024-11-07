@@ -7,21 +7,27 @@ import 'package:movie_tron/src/features/home_screen/domain/repository/home_repos
 import '../../domain/models/params_model/popular_params_model.dart';
 import '../../domain/models/popular_film_response/popular_film_response.dart';
 
-part 'home_event.dart';part 'home_state.dart';
+part 'home_event.dart';
+
+part 'home_state.dart';
 
 @injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final Set<PopularFilmResponse> popularParamsModelList = {};
+  final repository = getIt.get<HomeRepository>();
 
-  HomeRepository repository = getIt.get<HomeRepository>();
   HomeBloc() : super(HomeInitial()) {
-    on<InitialEvent>((event, emit) async {
-      final popularFilmList = await repository.getPopularFilmsList(
-          PopularParamsModel(event.popularParamsModel.language,
-                  event.popularParamsModel.page)
-              .toMap());
-      popularParamsModelList.addAll(popularFilmList.filmsList);
-      emit(HomeInitialState(popularFilmList:  popularParamsModelList,));
-    });
+    on<InitialEvent>(_onGetPopularFilmsList);
+  }
+
+  _onGetPopularFilmsList(InitialEvent event, Emitter<HomeState> emit) async {
+    final popularFilmList = await repository.getPopularFilmsList(
+        PopularParamsModel(event.popularParamsModel.language,
+                event.popularParamsModel.page)
+            .toMap());
+    popularParamsModelList.addAll(popularFilmList.filmsList);
+    emit(HomeInitialState(
+      popularFilmList: popularParamsModelList,
+    ));
   }
 }

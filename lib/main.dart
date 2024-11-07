@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:movie_tron/src/core/base_di/base_di.dart';
 import 'package:movie_tron/src/core/navigation/app_route_path.dart';
-import 'package:movie_tron/src/core_ui/colors/app_colors.dart';
-import 'package:movie_tron/src/core_ui/styles/bar_theme/app_bar_theme.dart';
-import 'package:movie_tron/src/core_ui/styles/text_theme/app_text_theme.dart';
-import 'package:movie_tron/src/features/home_screen/presentation/home_page.dart';
+import 'package:movie_tron/src/core_ui/styles/global_app_theme.dart';
 
 import 'generated/l10n.dart';
 
@@ -20,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Movie Tron',
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -28,20 +25,10 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      theme: ThemeData(
-        splashColor: Colors.white30,
-        fontFamily: 'Poppins',
-        appBarTheme: appAppBarTheme(context),
-        textTheme: appTextTheme(),
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-            onPrimary: Colors.white,
-            background: AppColors.mainBackgroundColor
-        ),
-        useMaterial3: true,
-      ),
+      themeMode: ThemeMode.dark,
+      darkTheme: GlobalAppTheme.darkThemeData,
+      theme: GlobalAppTheme.darkThemeData,
       routerConfig: appRouter,
-      // home: const HomePage(),
     );
   }
 }
