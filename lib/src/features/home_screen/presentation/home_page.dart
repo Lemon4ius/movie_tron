@@ -5,14 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_tron/src/features/home_screen/domain/models/params_model/popular_params_model.dart';
-import 'package:movie_tron/src/features/profile_screen/presentation/profile_page.dart';
-import 'package:movie_tron/src/features/search_screen/presentation/search_page.dart';
-
 import '../../../../generated/l10n.dart';
 import '../../../core_ui/images/bottom_navigation/bottom_navigation_icon.dart';
 import '../../../core_ui/models/bottom_nav_bar/bottom_nav_bar_model.dart';
 import '../../../core_ui/widget/bottom_app_bar.dart';
-import '../domain/models/results_popular_list_films_responce/popular_list_film_response.dart';
 import 'bloc/home_bloc.dart';
 import 'widget/carousel_slider_widget.dart';
 import 'widget/header_widget.dart';
